@@ -1,17 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Components
 import Header from '@components/login/header';
+import {AuthContext} from '@context/context';
+import {appStorage} from '../../../utils';
+import {useLocal} from '../../../hook';
 
 const Register = ({navigation}) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [login, setLogin] = useState(false);
 
-  const goLogin = () => {
-    console.log('email ::', email);
-    console.log('password ::', password);
+  const {getAuth} = useContext(AuthContext);
+  const local = useLocal();
+
+  const actionHandler = () => {
+    let data = {
+      userName: name,
+      userEmail: email,
+      userPwd: password,
+    };
+    try {
+      appStorage.setItem('@user.data', JSON.stringify(data));
+      getAuth(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const footerHandler = () => {
@@ -25,14 +42,16 @@ const Register = ({navigation}) => {
   return (
     <View>
       <Header
-        title={'Register'}
-        buttonText={'Register'}
+        title={local.register}
+        buttonText={local.register}
         emailValue={email}
         passValue={password}
-        onChageEmail={val => setEmail(val)}
-        onChagePass={val => setPassword(val)}
-        action={goLogin}
-        footerText={'login'}
+        userValue={name}
+        onChangeUser={val => setName(val)}
+        onChangeEmail={val => setEmail(val)}
+        onChangePass={val => setPassword(val)}
+        action={actionHandler}
+        footerText={local.login}
         isLogin={login}
         footerAction={footerHandler}
       />

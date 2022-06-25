@@ -3,24 +3,35 @@ import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 
 // Styles
 import styles from './style';
+import {useLocal} from '../../hook';
 
 const header = props => {
+  const local = useLocal();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{props.title}</Text>
 
       <View style={styles.inputContainer}>
+        {!props.isLogin && (
+          <TextInput
+            placeholder={local.userName}
+            value={props.userValue}
+            onChangeText={props.onChangeUser}
+            style={styles.input}
+          />
+        )}
         <TextInput
-          placeholder="Email..."
-          style={styles.input}
+          placeholder={local.emailPlaceholder}
+          style={[styles.input, {marginTop: 20}]}
           value={props.emailValue}
-          onChangeText={props.onChageEmail}
+          onChangeText={props.onChangeEmail}
         />
         <TextInput
-          placeholder="Password..."
+          placeholder={local.pwdPlaceholder}
           secureTextEntry
           value={props.passValue}
-          onChangeText={props.onChagePass}
+          onChangeText={props.onChangePass}
           style={[styles.input, {marginTop: 20}]}
         />
       </View>
@@ -34,9 +45,9 @@ const header = props => {
 
       <View style={styles.accContainer}>
         {props.isLogin ? (
-          <Text>You don't have account, please </Text>
+          <Text>{local.noAccount} </Text>
         ) : (
-          <Text>if you already have an account, please</Text>
+          <Text>{local.already}</Text>
         )}
 
         <TouchableOpacity onPress={props.footerAction}>
