@@ -18,6 +18,7 @@ const Register = ({navigation}) => {
   const local = useLocal();
 
   const actionHandler = () => {
+    let userToken = '1234567890';
     let data = {
       userName: name,
       userEmail: email,
@@ -25,6 +26,7 @@ const Register = ({navigation}) => {
     };
     try {
       appStorage.setItem('@user.data', JSON.stringify(data));
+      appStorage.setItem('@user.token', userToken);
       getAuth(true);
     } catch (error) {
       console.log(error);

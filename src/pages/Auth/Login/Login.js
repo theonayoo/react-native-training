@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {View, Text, ToastAndroid, TouchableOpacity} from 'react-native';
 
 // Components
@@ -27,8 +27,10 @@ const Login = ({navigation}) => {
   };
 
   const goLogin = value => {
+    let token = '1234567890';
     if (value.userEmail === email && value.userPwd === password) {
       getAuth(true);
+      appStorage.setItem('@user.token', token);
     } else {
       ToastAndroid.show('Email or password wrong!', ToastAndroid.SHORT);
     }

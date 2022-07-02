@@ -12,6 +12,7 @@ const appNavigator = () => {
   const [lang, setLang] = useState('en');
   const [auth, setAuth] = useState(false);
   const [splashScreen, setSplashScreen] = useState(true);
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     storeData();
@@ -19,10 +20,12 @@ const appNavigator = () => {
 
   const storeData = () => {
     try {
-      const data = appStorage.getItem('@user.data');
+      const userData = appStorage.getItem('@user.data');
+      const token = appStorage.getItem('@user.token');
       const locale = appStorage.getItem('@lang');
+      setUserInfo(JSON.parse(userData));
       setLang(locale);
-      if (data) {
+      if (token) {
         setAuth(true);
         setTimeout(() => {
           setSplashScreen(false);
@@ -39,6 +42,7 @@ const appNavigator = () => {
   const context = {
     lang,
     auth,
+    userInfo,
     getAuth: value => {
       setAuth(value);
     },
