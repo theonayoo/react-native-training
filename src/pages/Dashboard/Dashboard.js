@@ -47,21 +47,21 @@ const Dashboard = ({navigation}) => {
   };
 
   const detailHandler = value => {
-    // console.log('details ::', value);
-    // navigation.navigate('ProductDetail', {data: value});
-    const encData = CryptoJs.AES.encrypt(
-      JSON.stringify(value),
-      EncKEY,
-    ).toString();
-    console.log('data enc ::', encData);
-    fetch('url',{data:encData})
-
-    const decData = CryptoJs.AES.decrypt(encData, EncKEY).toString(
-      CryptoJs.enc.Utf8,
-    );
-
-    console.log('dec data ::', decData);
+    navigation.navigate('ProductDetail', {data: value});
   };
+
+  // const encData = CryptoJs.AES.encrypt(
+  //   JSON.stringify(value),
+  //   EncKEY,
+  // ).toString();
+  // console.log('data enc ::', encData);
+  // fetch('url',{data:encData})
+
+  // const decData = CryptoJs.AES.decrypt(encData, EncKEY).toString(
+  //   CryptoJs.enc.Utf8,
+  // );
+
+  // console.log('dec data ::', decData);
 
   return (
     <View style={styles.container}>
