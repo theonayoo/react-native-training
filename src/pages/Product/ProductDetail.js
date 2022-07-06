@@ -1,13 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, ToastAndroid} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useSelector} from 'react-redux';
 
 // Components
 import {useLocal} from '../../hook';
-import {fetchGet, fetchPost} from '../../utils';
+import {fetchGet, fetchPost, fetchMultiPost} from '../../utils';
 import apiUrl from '../../utils/apiUrl';
 
 // Icons
@@ -19,14 +21,57 @@ import styles from './Style';
 const ProductDetail = ({route}) => {
   const {data} = route.params;
   const local = useLocal();
+  const [photos, setPhotos] = useState([]);
+
+  const products = useSelector(state => state.productList.products);
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
+    console.log('redux data ::::', products);
   }, []);
 
+  const uploadImage = async () => {
+    launchImageLibrary().then(res => {
+      try {
+        if (photos.length >= 1) {
+          // merge photo
+          setPhotos(photos.concat(res.assets));
+        } else {
+          setPhotos(res.assets);
+        }
+      } catch (error) {
+        console.log('error ::', error);
+      }
+    });
+  };
+
   const fetchData = async () => {
-    const response = await fetchPost(apiUrl.posts);
-    console.log('product Details :::::', response);
+    const uploadDdata = new FormData();
+    let data = {
+      title: data.title,
+      price: data.price,
+    };
+    uploadDdata.append('data', data);
+    photos.map(photo => {
+      uploadDdata.append('images[]', {
+        type: photo.type,
+        name: photo.fileName,
+        uri: photo.uri,
+        width: photo.width,
+        height: photo.height,
+      });
+    });
+    // for (const key in photos) {
+    //   uploadDdata.append('images[]', {
+    //     type: photos[key].type,
+    //     name: photos[key].fileName,
+    //     uri: photos[key].uri,
+    //     width: photos[key].width,
+    //     height: photos[key].height,
+    //   });
+
+    const response = await fetchMultiPost(apiUrl.posts, uploadDdata);
+    console.log('response data ::', response);
   };
 
   const addToCart = () => {
@@ -55,6 +100,14 @@ const ProductDetail = ({route}) => {
       <View style={styles.description}>
         <Text>{data.description}</Text>
       </View>
+
+      {/* <TouchableOpacity onPress={uploadImage} style={{marginTop: 40}}>
+        <Text>Upload Image</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={fetchData} style={{marginTop: 40}}>
+        <Text>Submit</Text>
+      </TouchableOpacity> */}
     </View>
   );
 };

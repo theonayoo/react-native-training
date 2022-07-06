@@ -1,6 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import {View, Text, TouchableOpacity, Image, ToastAndroid} from 'react-native';
 import CryptoJs from 'crypto-js';
+import {useDispatch} from 'react-redux';
 
 // Components
 import styles from './Style';
@@ -9,6 +10,9 @@ import {appStorage} from '../../utils';
 import {useLocal} from '../../hook';
 import Header from '@components/dashboard/dashboardHeader';
 import ProductList from '@components/dashboard/product/productList';
+
+// From Redux action
+import * as ActionProducts from '../../store/action/product';
 
 // Data
 import ProductData from '../../data/product';
@@ -20,6 +24,7 @@ const Dashboard = ({navigation}) => {
   const {getAuth, userInfo} = useContext(AuthContext);
 
   const local = useLocal();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getData();
@@ -47,21 +52,24 @@ const Dashboard = ({navigation}) => {
   };
 
   const detailHandler = value => {
+    dispatch(ActionProducts.addProducts(value));
     navigation.navigate('ProductDetail', {data: value});
   };
 
-  // const encData = CryptoJs.AES.encrypt(
-  //   JSON.stringify(value),
-  //   EncKEY,
-  // ).toString();
-  // console.log('data enc ::', encData);
-  // fetch('url',{data:encData})
+  // const encryption = () => {
+  //   const encData = CryptoJs.AES.encrypt(
+  //     JSON.stringify(value),
+  //     EncKEY,
+  //   ).toString();
+  //   console.log('data enc ::', encData);
+  //   fetch('url', {data: encData});
 
-  // const decData = CryptoJs.AES.decrypt(encData, EncKEY).toString(
-  //   CryptoJs.enc.Utf8,
-  // );
+  //   const decData = CryptoJs.AES.decrypt(encData, EncKEY).toString(
+  //     CryptoJs.enc.Utf8,
+  //   );
 
-  // console.log('dec data ::', decData);
+  //   console.log('dec data ::', decData);
+  // };
 
   return (
     <View style={styles.container}>

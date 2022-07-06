@@ -32,3 +32,18 @@ export const fetchPost = async (route, data) => {
 
   return resJson;
 };
+
+export const fetchMultiPost = async (route, data) => {
+  let response = null;
+  response = await fetch(apiUrl + route, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+    body: JSON.stringify(data),
+  });
+  const resJson = await response.json();
+
+  return resJson;
+};

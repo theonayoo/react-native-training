@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
+import {Provider} from 'react-redux';
 import {AuthContext} from '../context/context';
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -7,6 +8,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import AuthStack from './stack/AuthStack';
 import DashboardStack from './stack/DashboardStack';
 import {appStorage} from '../utils';
+import reduxStore from '../store';
 
 const appNavigator = () => {
   const [lang, setLang] = useState('en');
@@ -59,19 +61,23 @@ const appNavigator = () => {
     );
   } else if (auth) {
     return (
-      <AuthContext.Provider value={context}>
-        <NavigationContainer>
-          <DashboardStack />
-        </NavigationContainer>
-      </AuthContext.Provider>
+      <Provider store={reduxStore}>
+        <AuthContext.Provider value={context}>
+          <NavigationContainer>
+            <DashboardStack />
+          </NavigationContainer>
+        </AuthContext.Provider>
+      </Provider>
     );
   } else {
     return (
-      <AuthContext.Provider value={context}>
-        <NavigationContainer>
-          <AuthStack />
-        </NavigationContainer>
-      </AuthContext.Provider>
+      <Provider store={reduxStore}>
+        <AuthContext.Provider value={context}>
+          <NavigationContainer>
+            <AuthStack />
+          </NavigationContainer>
+        </AuthContext.Provider>
+      </Provider>
     );
   }
 };
