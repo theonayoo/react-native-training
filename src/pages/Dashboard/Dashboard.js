@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import {View, Text, TouchableOpacity, Image, ToastAndroid} from 'react-native';
 import CryptoJs from 'crypto-js';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 // Components
 import styles from './Style';
@@ -12,7 +12,7 @@ import Header from '@components/dashboard/dashboardHeader';
 import ProductList from '@components/dashboard/product/productList';
 
 // From Redux action
-import * as ActionProducts from '../../store/action/product';
+import * as actionProducts from '../../store/action/product';
 
 // Data
 import ProductData from '../../data/product';
@@ -25,9 +25,11 @@ const Dashboard = ({navigation}) => {
 
   const local = useLocal();
   const dispatch = useDispatch();
+  const products = useSelector(state => state.productList.products);
 
   useEffect(() => {
-    getData();
+    // getData();
+    dispatch(actionProducts.addProducts(ProductData));
   }, []);
 
   const getData = () => {
@@ -47,12 +49,12 @@ const Dashboard = ({navigation}) => {
     }
   };
 
-  const addToCartHandler = () => {
+  const addToCartHandler = value => {
+    dispatch(actionProducts.orderProducts(value));
     ToastAndroid.show(local.successAdded, ToastAndroid.SHORT);
   };
 
   const detailHandler = value => {
-    dispatch(ActionProducts.addProducts(value));
     navigation.navigate('ProductDetail', {data: value});
   };
 
@@ -82,7 +84,7 @@ const Dashboard = ({navigation}) => {
 
       {/* product list */}
       <ProductList
-        data={ProductData}
+        data={products}
         priceTitle={local.price}
         addToCartTitle={local.addToCart}
         addToCartAction={addToCartHandler}

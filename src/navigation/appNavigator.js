@@ -6,7 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 
 // Stack
 import AuthStack from './stack/AuthStack';
-import DashboardStack from './stack/DashboardStack';
+import TabNavigator from './tabs/TabNavigator';
 import {appStorage} from '../utils';
 import reduxStore from '../store';
 
@@ -64,7 +64,7 @@ const appNavigator = () => {
       <Provider store={reduxStore}>
         <AuthContext.Provider value={context}>
           <NavigationContainer>
-            <DashboardStack />
+            <TabNavigator />
           </NavigationContainer>
         </AuthContext.Provider>
       </Provider>
