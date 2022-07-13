@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     paddingVertical: hp(0.5),
     borderRadius: hp(5),
     flexDirection: 'row',
+    marginTop: hp(0.5),
   },
   addToCartTitle: {
     color: '#fff',

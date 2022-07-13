@@ -5,12 +5,16 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 // Components
 import {useLocal} from '../../hook';
 import {fetchGet, fetchPost, fetchMultiPost} from '../../utils';
 import apiUrl from '../../utils/apiUrl';
+
+// Redux action
+import * as actionCarts from '../../store/action/cart';
+import * as actionProducts from '../../store/action/product';
 
 // Icons
 import Cart from '@assets/icons/cart';
@@ -23,11 +27,11 @@ const ProductDetail = ({route}) => {
   const local = useLocal();
   const [photos, setPhotos] = useState([]);
 
-  const products = useSelector(state => state.productList.products);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // fetchData();
-    console.log('redux data ::::', products);
+    // console.log('redux data ::::', products);
   }, []);
 
   const uploadImage = async () => {
@@ -75,7 +79,21 @@ const ProductDetail = ({route}) => {
   };
 
   const addToCart = () => {
+    dispatch(actionCarts.addToCart(data));
     ToastAndroid.show(local.successAdded, ToastAndroid.SHORT);
+  };
+
+  const updateHandler = () => {
+    let updateData = {
+      id: data.id,
+      quantity: data.quantity,
+      imageUrl: data.imageUrl,
+      title: 'Update',
+      price: 50,
+      currency: data.currency,
+      description: '',
+    };
+    dispatch(actionProducts.updateProduct(updateData));
   };
 
   return (
@@ -91,10 +109,16 @@ const ProductDetail = ({route}) => {
             {local.price} {data.price} {data.currency}
           </Text>
         </View>
-        <TouchableOpacity style={styles.btnContainer} onPress={addToCart}>
-          <Cart width={wp(5)} height={hp(3)} />
-          <Text style={styles.addToCartTitle}>{local.addToCart}</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity style={styles.btnContainer} onPress={addToCart}>
+            <Cart width={wp(5)} height={hp(3)} />
+            <Text style={styles.addToCartTitle}>{local.addToCart}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.btnContainer} onPress={updateHandler}>
+            <Text style={styles.addToCartTitle}>Update</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.description}>

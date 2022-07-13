@@ -49,13 +49,27 @@ const Dashboard = ({navigation}) => {
     }
   };
 
-  const addToCartHandler = value => {
-    dispatch(actionProducts.orderProducts(value));
-    ToastAndroid.show(local.successAdded, ToastAndroid.SHORT);
+  const deleteProduct = value => {
+    dispatch(actionProducts.deleteProduct(value.id));
+    ToastAndroid.show(`you deleted ${value.title}`, ToastAndroid.SHORT);
   };
 
   const detailHandler = value => {
     navigation.navigate('ProductDetail', {data: value});
+  };
+
+  const addProdcutHandler = () => {
+    let data = {
+      id: 1,
+      quantity: 1,
+      imageUrl: require('@assets/images/banana.png'),
+      title: 'New',
+      price: 200,
+      currency: 'MMK',
+      description: '',
+    };
+
+    dispatch(actionProducts.addProducts(data));
   };
 
   // const encryption = () => {
@@ -80,6 +94,8 @@ const Dashboard = ({navigation}) => {
         data={userInfo}
         logout={logoutHandler}
         logoutTitle={local.logout}
+        addProductAction={addProdcutHandler}
+        addProductTitle={'Add New'}
       />
 
       {/* product list */}
@@ -87,7 +103,7 @@ const Dashboard = ({navigation}) => {
         data={products}
         priceTitle={local.price}
         addToCartTitle={local.addToCart}
-        addToCartAction={addToCartHandler}
+        deleteAction={deleteProduct}
         productDetail={detailHandler}
       />
     </View>

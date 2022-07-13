@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff8800',
     paddingHorizontal: hp(2),
     paddingVertical: hp(0.5),
+    marginTop: hp(0.5),
   },
   confirmText: {
     fontSize: hp(1.6),
@@ -56,6 +57,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  quantity: {
+    backgroundColor: '#ff8800',
+    alignSelf: 'center',
+    fontSize: hp(1.6),
+    paddingHorizontal: hp(0.8),
+    // paddingVertical: hp(0.),
+    borderRadius: hp(5),
+    marginLeft: hp(1),
+    color: '#fff',
   },
 });
 

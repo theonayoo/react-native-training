@@ -1,6 +1,7 @@
 export default product = [
   {
     id: 1,
+    quantity: 1,
     imageUrl: require('@assets/images/apple.png'),
     title: 'Apple',
     price: 1000,
@@ -9,6 +10,7 @@ export default product = [
   },
   {
     id: 2,
+    quantity: 1,
     imageUrl: require('@assets/images/banana.png'),
     title: 'Banana',
     price: 200,
@@ -17,6 +19,7 @@ export default product = [
   },
   {
     id: 3,
+    quantity: 1,
     imageUrl: require('@assets/images/orange.png'),
     title: 'Orange',
     price: 800,
@@ -25,6 +28,7 @@ export default product = [
   },
   {
     id: 4,
+    quantity: 1,
     imageUrl: require('@assets/images/pineapple.png'),
     title: 'Pineapple',
     price: 2000,
@@ -33,6 +37,7 @@ export default product = [
   },
   {
     id: 5,
+    quantity: 1,
     imageUrl: require('@assets/images/mango.png'),
     title: 'Mango',
     price: 500,

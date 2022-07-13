@@ -8,7 +8,6 @@ const dashboardHeader = props => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.leftContainer}>
-        
         {/* user profile */}
 
         <Image
@@ -29,6 +28,12 @@ const dashboardHeader = props => {
       <View style={styles.rightContainer}>
         <TouchableOpacity onPress={props.logout} style={styles.logoutBtn}>
           <Text style={{color: '#ff8800'}}>{props.logoutTitle}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={props.addProductAction}
+          style={styles.logoutBtn}>
+          <Text style={{color: '#ff8800'}}>{props.addProductTitle}</Text>
         </TouchableOpacity>
       </View>
     </View>
