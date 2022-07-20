@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import {Provider} from 'react-redux';
 import {AuthContext} from '../context/context';
 import {NavigationContainer} from '@react-navigation/native';
+import splashScreen from 'react-native-splash-screen';
 
 // Stack
 import AuthStack from './stack/AuthStack';
@@ -13,10 +14,12 @@ import reduxStore from '../store';
 const appNavigator = () => {
   const [lang, setLang] = useState('en');
   const [auth, setAuth] = useState(false);
-  const [splashScreen, setSplashScreen] = useState(true);
+  const [splashScreens, setSplashScreens] = useState(true);
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
+    splashScreen.hide();
+    console.log('splash screen :::');
     storeData();
   }, []);
 
@@ -25,16 +28,18 @@ const appNavigator = () => {
       const userData = appStorage.getItem('@user.data');
       const token = appStorage.getItem('@user.token');
       const locale = appStorage.getItem('@lang');
-      setUserInfo(JSON.parse(userData));
+      if (userData) {
+        setUserInfo(JSON.parse(userData));
+      }
       setLang(locale);
       if (token) {
         setAuth(true);
         setTimeout(() => {
-          setSplashScreen(false);
+          setSplashScreens(false);
         }, 3000);
       } else {
         setAuth(false);
-        setSplashScreen(false);
+        setSplashScreens(false);
       }
     } catch (error) {
       console.log('error', error);
@@ -53,7 +58,7 @@ const appNavigator = () => {
     },
   };
 
-  if (splashScreen) {
+  if (splashScreens) {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Text>Welcome to our app</Text>

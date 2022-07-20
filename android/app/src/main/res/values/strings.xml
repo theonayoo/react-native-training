@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SampleProject</string>
-</resources>
+     <string name="app_name">RN-Training</string>
+     <string moduleConfig="true" name="CodePushDeploymentKey">Im1DEXuKaF6hhZO5G4ODZxFT68SckutAOBAvb</string>
+ </resources>

@@ -18,8 +18,12 @@ const dashboardHeader = props => {
         {/* user information */}
 
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{props.data.userName}</Text>
-          <Text style={styles.userEmail}>{props.data.userEmail}</Text>
+          <Text style={styles.userName}>
+            {props.data ? props.data.userName : ''}
+          </Text>
+          <Text style={styles.userEmail}>
+            {props.data ? props.data.userEmail : ''}
+          </Text>
         </View>
       </View>
 
